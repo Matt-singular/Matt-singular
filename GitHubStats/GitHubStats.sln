@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{162A
 		..\.github\workflows\manuallyRunGitHubStats.yml = ..\.github\workflows\manuallyRunGitHubStats.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D937B899-4D07-4CB4-8377-B56F5A1FE881}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication.Tests", "ConsoleApplication.Tests\ConsoleApplication.Tests.csproj", "{A060FA57-73BE-46C3-96BD-7F0958581D6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Action|Any CPU = Action|Any CPU
@@ -29,12 +33,19 @@ Global
 		{120EEB7D-4C80-46BE-9695-C7B669597221}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120EEB7D-4C80-46BE-9695-C7B669597221}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120EEB7D-4C80-46BE-9695-C7B669597221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Action|Any CPU.ActiveCfg = Debug|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Action|Any CPU.Build.0 = Debug|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{162A0166-F766-43DF-9C4E-8672D5874589} = {59692DB7-DEF5-408B-BA40-C5746A5F22BF}
+		{A060FA57-73BE-46C3-96BD-7F0958581D6E} = {D937B899-4D07-4CB4-8377-B56F5A1FE881}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31F6EE20-C447-4C14-8A0F-CDF78AD4DD6D}
