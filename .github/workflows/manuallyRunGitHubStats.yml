@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SecretTest: ${{ secrets.SecretTest }} # Tmeporary secret
+      SecretTest: ${{ secrets.SECRET_TEST }} # Tmeporary secret
 
     steps:
     - name: Checkout Repository
@@ -20,7 +20,7 @@ jobs:
 
     - name: Restore Dependencies
       run: cd GitHubStats && dotnet restore
-
+        
     - name: Build
       run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest="${SecretTest}"
 
