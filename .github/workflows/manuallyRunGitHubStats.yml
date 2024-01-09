@@ -23,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
     - name: Run Console App
       run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
       env: # Overrides appsettings.json entries (be sure to run .AddEnvironmentVariables during app startup to apply the overrides)
