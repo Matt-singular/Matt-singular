@@ -17,9 +17,12 @@ jobs:
         dotnet-version: 8.x
 
     - name: Restore Dependencies
-      run: cd GitHubStats && ls && dotnet restore
+      run: cd GitHubStats && dotnet restore
 
     - name: Build
       #env:
           #SecretTest: ${{ secrets.SecretTest }} # Using a temporary "secret" here for testing purposes
       run: cd GitHubStats && ls && dotnet build
+
+    - name: Run Console App
+      run: cd GitHubStats && dotnet run --project ConsoleApplication
