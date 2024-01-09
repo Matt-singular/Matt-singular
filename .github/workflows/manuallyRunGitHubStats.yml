@@ -21,7 +21,7 @@ jobs:
     - name: Build
       #env:
           #SecretTest: ${{ secrets.SecretTest }} # Using a temporary "secret" here for testing purposes
-      run: cd GitHubStats && ls && dotnet build
+      run: cd GitHubStats && ls && dotnet build --configuration Action
 
     - name: Run Console App
-      run: cd GitHubStats && dotnet run --project ConsoleApplication
+      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
