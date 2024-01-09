@@ -6,6 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SECRET_TEST: ${{ secrets.SECRET_TEST }} # Testing using an example GitHub secret
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -19,7 +22,9 @@ jobs:
       run: cd GitHubStats && dotnet restore
         
     - name: Build
-      run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest=${{ secrets.SECRET_TEST }}
+      run: cd GitHubStats && ls && dotnet build --configuration Action
+      env:
+          SecretTest: ${{ env.SECRET_TEST }}
 
     - name: Run Console App
-      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action /p:SecretTest=${{ secrets.SECRET_TEST }}
+      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
