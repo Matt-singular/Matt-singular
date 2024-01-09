@@ -11,12 +11,12 @@ public static class StartupExtensions
 
     // Include project folder if running via GitHub actions (not locally)
 #if ACTION
-  applicationPath += "\\ConsoleApplication";
+  applicationPath += "/ConsoleApplication";
 #endif
 
     // Include path/folders
-    applicationPath = string.IsNullOrEmpty(folders) == false ? Path.Combine(applicationPath, folders) : applicationPath;
-    applicationPath = string.IsNullOrEmpty(file) == false ? Path.Combine(applicationPath, file) : applicationPath;
+    applicationPath += string.IsNullOrEmpty(folders) == false ? $"/{folders}" : string.Empty;
+    applicationPath += string.IsNullOrEmpty(file) == false ? $"/{file}" : string.Empty;
 
     return applicationPath;
   }
