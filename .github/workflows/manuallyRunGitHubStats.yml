@@ -23,10 +23,6 @@ jobs:
         
     - name: Build
       run: cd GitHubStats && ls && dotnet build --configuration Action
-      env:
-          SecretTest: ${{ secrets.SECRET_TEST }}
 
     - name: Run Console App
       run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
-      env:
-          SecretTest: ${{ secrets.SECRET_TEST }} #not sure about this, but having issues with this secret...
