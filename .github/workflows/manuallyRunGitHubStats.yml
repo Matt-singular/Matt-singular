@@ -1,6 +1,6 @@
 name: Manually run the GitHubStats application
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Manual workflow trigger
 
 jobs:
   build:
