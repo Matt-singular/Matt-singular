@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 public static class StartupExtensions
 {
   /// <summary>
-  /// Sets up the application's config files at Startup
+  /// Sets up the application's config files (and user secret overrides) at Startup
   /// </summary>
   /// <param name="configBuilder"></param>
   /// <returns>the configured IConfigurationBuilder</returns>
@@ -15,6 +15,9 @@ public static class StartupExtensions
     // Configure the appsettings.json
     var appSettingsPath = FileHelpers.GetApplicationPath(file: Constants.AppSettingsFile, folders: Constants.AppSettingsFolder);
     configBuilder.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
+
+    // Configure user secret overrides
+    configBuilder.AddUserSecrets<Program>();
 
     return configBuilder;
   }
