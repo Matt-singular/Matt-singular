@@ -20,6 +20,10 @@ jobs:
 
     - name: Restore Dependencies
       run: cd GitHubStats && dotnet restore
+
+    - name: Print test secret value 
+      run:  |
+        echo "SecretTest value: ${SecretTest}"
         
     - name: Build
       run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest="${SecretTest}"
