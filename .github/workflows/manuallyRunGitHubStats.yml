@@ -6,6 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SecretTest: ${{ secrets.SecretTest }} # Tmeporary secret
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -19,11 +22,7 @@ jobs:
       run: cd GitHubStats && dotnet restore
 
     - name: Build
-      env:
-          SecretTest: ${{ secrets.SecretTest }} # Using a temporary "secret" here for testing purposes
-      run: cd GitHubStats && ls && dotnet build --configuration Action
+      run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest="${SecretTest}"
 
     - name: Run Console App
-      env:
-          SecretTest: ${{ secrets.SecretTest }} # Using a temporary "secret" here for testing purposes (not sure if it's needed here too - testing')
-      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
+      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action 
