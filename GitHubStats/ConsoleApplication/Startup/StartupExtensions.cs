@@ -16,8 +16,8 @@ public static class StartupExtensions
 
     // Include path/folders
     var directory = currentDirectory;
-    directory = string.IsNullOrEmpty(folders) == false ? Path.Combine(directory, folders) : directory;
-    directory = string.IsNullOrEmpty(file) == false ? Path.Combine(directory, file) : directory;
+    directory = string.IsNullOrEmpty(folders) == false ? Path.Combine(directory, "\\", folders) : directory;
+    directory = string.IsNullOrEmpty(file) == false ? Path.Combine(directory, "\\", file) : directory;
 
     return directory;
   }
