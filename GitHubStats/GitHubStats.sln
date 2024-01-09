@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{162A0166-F766-43DF-9C4E-8672D5874589}"
+	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\manuallyRunGitHubStats.yml = ..\.github\workflows\manuallyRunGitHubStats.yml
 	EndProjectSection
 EndProject
@@ -28,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{162A0166-F766-43DF-9C4E-8672D5874589} = {59692DB7-DEF5-408B-BA40-C5746A5F22BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31F6EE20-C447-4C14-8A0F-CDF78AD4DD6D}
