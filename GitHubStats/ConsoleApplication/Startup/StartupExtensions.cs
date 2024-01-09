@@ -19,6 +19,9 @@ public static class StartupExtensions
     // Configure user secret overrides
     configBuilder.AddUserSecrets<Program>();
 
+    // Add environment varialbe overrides
+    configBuilder.AddEnvironmentVariables();
+
     return configBuilder;
   }
 
