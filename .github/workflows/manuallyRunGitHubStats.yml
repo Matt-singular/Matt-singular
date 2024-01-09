@@ -3,7 +3,7 @@ on:
   workflow_dispatch: # Manual workflow trigger
 
 jobs:
-  run_application:
+  setup_application:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,12 @@ jobs:
 
     - name: Restore Dependencies
       run: cd GitHubStats && dotnet restore
-       
+
+  run_application:
+    needs: setup_application
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Run Console App
       run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action
       env: # Overrides appsettings.json entries (be sure to run .AddEnvironmentVariables during app startup to apply the overrides)
