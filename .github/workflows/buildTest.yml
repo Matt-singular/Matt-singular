@@ -16,13 +16,10 @@ jobs:
       with:
         dotnet-version: 8.x
 
-    - name: Change to Project Directory
-      run: cd GitHubStats && ls
-
     - name: Restore Dependencies
-      run: dotnet restore
+      run: cd GitHubStats && ls && dotnet restore
 
     - name: Build
       #env:
           #SecretTest: ${{ secrets.SecretTest }} # Using a temporary "secret" here for testing purposes
-      run: dotnet build
+      run: cd GitHubStats && ls && dotnet build
