@@ -7,19 +7,18 @@ public static class StartupExtensions
   public static string GetApplicationPath(string? file = null, string? folders = null)
   {
     // Base directory path
-    var currentDirectory = Directory.GetCurrentDirectory();
+    var applicationPath = Directory.GetCurrentDirectory();
 
     // Include project folder if running via GitHub actions (not locally)
 #if ACTION
-    currentDirectory += "\\ConsoleApplication";
+  currentDirectory += "\\ConsoleApplication";
 #endif
 
     // Include path/folders
-    var directory = currentDirectory;
-    directory = string.IsNullOrEmpty(folders) == false ? Path.Combine(directory, "\\", folders) : directory;
-    directory = string.IsNullOrEmpty(file) == false ? Path.Combine(directory, "\\", file) : directory;
+    applicationPath = string.IsNullOrEmpty(folders) == false ? Path.Combine(applicationPath, folders) : applicationPath;
+    applicationPath = string.IsNullOrEmpty(file) == false ? Path.Combine(applicationPath, file) : applicationPath;
 
-    return directory;
+    return applicationPath;
   }
 
   public static IConfigurationBuilder AddApplicationConsoleConfigurations(this IConfigurationBuilder configBuilder)
