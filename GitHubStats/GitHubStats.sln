@@ -8,8 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59692DB7-DEF5-408B-BA40-C5746A5F22BF}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
-		..\.github\workflows\buildTest.yml = ..\.github\workflows\buildTest.yml
 		..\README.md = ..\README.md
+		..\.github\workflows\manuallyRunGitHubStats.yml = ..\.github\workflows\manuallyRunGitHubStats.yml
 	EndProjectSection
 EndProject
 Global

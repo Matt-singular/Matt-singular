@@ -1,5 +1,4 @@
-name: Build GitHubStats application
-
+name: Manually run the GitHubStats application
 on:
   workflow_dispatch:
 
