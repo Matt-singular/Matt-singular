@@ -6,9 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      SecretTest: ${{ secrets.SECRET_TEST }} # Tmeporary secret
-
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -20,13 +17,9 @@ jobs:
 
     - name: Restore Dependencies
       run: cd GitHubStats && dotnet restore
-
-    - name: Print test secret value 
-      run:  |
-        echo "SecretTest value: ${SecretTest}"
         
     - name: Build
-      run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest="${SecretTest}"
+      run: cd GitHubStats && ls && dotnet build --configuration Action /p:SecretTest=${{ secrets.SECRET_TEST }}
 
     - name: Run Console App
-      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action 
+      run: cd GitHubStats && dotnet run --project ConsoleApplication --configuration Action /p:SecretTest=${{ secrets.SECRET_TEST }}
