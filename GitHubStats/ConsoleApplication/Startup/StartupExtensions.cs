@@ -11,7 +11,7 @@ public static class StartupExtensions
 
     // Include project folder if running via GitHub actions (not locally)
 #if ACTION
-  currentDirectory += "\\ConsoleApplication";
+  applicationPath += "\\ConsoleApplication";
 #endif
 
     // Include path/folders
