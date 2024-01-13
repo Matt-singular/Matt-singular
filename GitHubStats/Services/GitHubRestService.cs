@@ -30,7 +30,7 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
     var client = CreateGitHubApiClient();
     var organisations = await client.Organization.GetAllForCurrent().ConfigureAwait(false);
 
-    // Currently limited to one GitHub organisation, but this logic could be extended to cater for multiple if needed.
+    // This logic is currently limited to one GitHub organisation, but this logic could be extended to cater for multiple if needed.
     var organisationDetails = organisations?.FirstOrDefault() ?? throw new ArgumentNullException("couldn't find organisation");
     return organisationDetails;
   }
