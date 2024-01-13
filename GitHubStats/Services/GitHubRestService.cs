@@ -23,7 +23,7 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
 
     return client;
   }
-  
+
   public async Task<Octokit.Organization> GetGitHubOrganisationDetailsAsync()
   {
     // Fetch the current user's organisations
@@ -35,53 +35,66 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
     return organisationDetails;
   }
 
-  public async Task GetGitHubUserStatistics()
+  public async Task GetGitHubUserStatistics() // todo - this can be optimised, but serves as a poc
   {
-    // Get statistics for the user's repositories
+    // Get all of the repositories the user has contributed to (note what gets returned by this call will drastically change based on the PAT's access rights)
     var client = CreateGitHubApiClient();
-    var userRepositories = await client.Repository.GetAllForCurrent().ConfigureAwait(false);
-    var userRepoDetails = await Task.WhenAll(userRepositories
-      .Select(repo => GetRepositoryStatistics(repo, client))
-      .ToList())
-      .ConfigureAwait(false);
-    var totalUserStatistics = userRepoDetails.Sum(userRepoStats => userRepoStats.commits);
+    var repositoryList = await client.Repository.GetAllForCurrent().ConfigureAwait(false);
 
-    // Get the Organisation repositories
+    // Get some user-specific details (as determined by the configured PAT)
+    var user = await client.User.Current().ConfigureAwait(false);
     var organisation = await GetGitHubOrganisationDetailsAsync().ConfigureAwait(false);
-    var organisationRepositories = await client.Repository.GetAllForOrg(organisation.Name).ConfigureAwait(false);
 
-    // Filter to the configured user repositories (currently doing this manually as the REST API doesn't seem to cater for this filtering)
+    // Filter the repository list down to a specified few
+    var groupedRepositoryList = repositoryList.GroupBy(repo => repo.Owner.Login).ToList();
     var userOrgRepositories = configuration.GetConfigValue(ConfigHelpers.Constants.UserOrganisationRepositories)?.Split(',')?.ToList() ?? throw new ArgumentNullException("user's organisation repositories have not been configured");
-    var userOrganisationRepos = organisationRepositories.Where(orgRepo => userOrgRepositories.Any(userOrgRepo => orgRepo.Name.Contains(userOrgRepo))).ToList();
+    var filteredRepositoryList = groupedRepositoryList
+      .SelectMany(group => FilterToUserSpecifiedRepositories(group, organisation.Login, userOrgRepositories))
+      .ToList();
 
-    // Get the user's organisation repo details
-    var userOrganisationRepoDetails = await Task.WhenAll(userOrganisationRepos
-      .Select(repo => GetRepositoryStatistics(repo, client))
+    // Fetch the statistics for the filtered repositories
+    var startDate = DateTime.UtcNow.AddHours(2).AddYears(-1);
+    var endDate = DateTime.UtcNow.AddHours(2);
+    var repositoryStatistics = await Task.WhenAll(filteredRepositoryList
+      .Select(repo => GetRepositoryStatistics(repo, client, user.Login, startDate, endDate))
       .ToList())
       .ConfigureAwait(false);
-    var totalOrganisationStatistics = userOrganisationRepoDetails.Sum(orgRepoStats => orgRepoStats.commits);
 
-    // Totals (still very rough numbers and doesn't include all repositories contributed to)
-    var totalCommitsMade = totalUserStatistics + totalOrganisationStatistics;
+    var totalUserCommits = repositoryStatistics.Sum(userRepoStats => userRepoStats.commits);
   }
 
-  public static async Task<(string? repoName, int commits)> GetRepositoryStatistics(Repository repository, GitHubClient client)
+  public List<Repository?> FilterToUserSpecifiedRepositories(IGrouping<string, Repository?> group, string organisation, List<string> userSpecifiedOrganisationRepos)
   {
-    // User and repository names
-    var username = "Matt-singular";
-    var repoName = repository.Name;
+    // Non-organisation repository
+    if (group.Key != organisation)
+    {
+      // Short-circuit and return the unfilitred repositories
+      return [.. group];
+    }
 
-    // Get the user's organisation statistics
+    // For ogranisation repositories only, filter to a specific list
+    var filteredRepositories = group
+      .Where(orgRepo => userSpecifiedOrganisationRepos.Any(userSpecifiedOrgRepo => orgRepo.Name.Contains(userSpecifiedOrgRepo)))
+      .ToList();
+    return filteredRepositories;
+  }
+
+  public static async Task<(string? repoName, int commits)> GetRepositoryStatistics(Repository repository, GitHubClient client, string username,
+    DateTime? startDate = null, DateTime? endDate = null)
+  {
+    // Get the user's repoository statistics
     var request = new CommitRequest
     {
-      Since = DateTime.UtcNow.AddHours(2).AddYears(-1),
-      Until = DateTime.UtcNow.AddHours(2),
+      Since = startDate,//DateTime.UtcNow.AddHours(2).AddYears(-1),
+      Until = endDate,//
       Author = username
     };
-    var repoStatistics = await client.Repository.Commit.GetAll(repository.Id, request).ConfigureAwait(false);
-    var commits = repoStatistics?.Count ?? 0;
-    
-    return (repoName, commits);
+
+    // TODO - see if we can pull other statistics for the repository (comments, issues, prs)
+    var repoCommitStats = await client.Repository.Commit.GetAll(repository.Id, request).ConfigureAwait(false);
+    var commits = repoCommitStats?.Count ?? 0;
+
+    return (repository.Name, commits);
   }
 
   public async Task GetGitHubDiffForRange()
@@ -93,7 +106,7 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
     var repoName = string.Empty; // todo - add the repo name here
     var startRef = string.Empty; // todo - add the start branch/tag here
     var endRef = string.Empty; // todo - add the end branch/tag here
-    var response = await client.Repository.Commit.Compare(owner: organisation.Name, repoName, @base: startRef, head: endRef).ConfigureAwait(false);
+    var response = await client.Repository.Commit.Compare(owner: organisation.Login, repoName, @base: startRef, head: endRef).ConfigureAwait(false);
     var diff = response.Commits; // contains the list of diffs here
   }
 
