@@ -1,7 +1,7 @@
 ﻿namespace ConsoleApplication.Startup;
 
-using ConsoleApplication.Helpers;
 using Microsoft.Extensions.Configuration;
+using Services.Helpers;
 
 public static class StartupExtensions
 {
