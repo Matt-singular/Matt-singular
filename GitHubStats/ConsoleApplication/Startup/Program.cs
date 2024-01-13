@@ -10,11 +10,9 @@ var host = Host.CreateDefaultBuilder(args)
   .Build();
 
 // Temporary for debugging purposese
-var testService = host.Services.GetRequiredService<Services.IGitHubRestService>();
-await testService.GetGitHubUserStatistics().ConfigureAwait(false);
-//await testService.GetGitHubDiffForRange().ConfigureAwait(false);
-//var testService = host.Services.GetRequiredService<Services.IGitHubGraphQlService>();
-//await testService.GetCommitStatisticsForUser().ConfigureAwait(false);
+var gitHubService = host.Services.GetRequiredService<Services.IGitHubRestService>();
+var gitHubStatisticDetails = await gitHubService.GetGitHubUserStatistics().ConfigureAwait(false);
+//await gitHubService.GetGitHubDiffForRange().ConfigureAwait(false);
 
 // Keep console open by prompting input
 Console.Write("Application built successfully... ");

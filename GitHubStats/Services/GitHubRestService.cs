@@ -24,7 +24,7 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
     return client;
   }
 
-  public async Task<Octokit.Organization> GetGitHubOrganisationDetailsAsync()
+  public async Task<Organization> GetGitHubOrganisationDetailsAsync()
   {
     // Fetch the current user's organisations
     var client = CreateGitHubApiClient();
@@ -35,15 +35,21 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
     return organisationDetails;
   }
 
-  public async Task GetGitHubUserStatistics() // todo - this can be optimised, but serves as a poc
+  public async Task<(string description, int totalCommits)> GetGitHubUserStatistics() // todo - this can be optimised, but serves as a poc
   {
     // Get all of the repositories the user has contributed to (note what gets returned by this call will drastically change based on the PAT's access rights)
     var client = CreateGitHubApiClient();
-    var repositoryList = await client.Repository.GetAllForCurrent().ConfigureAwait(false);
+    var repositoryListTask = client.Repository.GetAllForCurrent();
 
     // Get some user-specific details (as determined by the configured PAT)
-    var user = await client.User.Current().ConfigureAwait(false);
-    var organisation = await GetGitHubOrganisationDetailsAsync().ConfigureAwait(false);
+    var userTask = client.User.Current();
+    var organisationTask = GetGitHubOrganisationDetailsAsync();
+
+    // Wait for the first set of calls to complete before moving onto the next
+    await Task.WhenAll(repositoryListTask, userTask, organisationTask).ConfigureAwait(false);
+    var user = await userTask;
+    var organisation = await organisationTask;
+    var repositoryList = await repositoryListTask;
 
     // Filter the repository list down to a specified few
     var groupedRepositoryList = repositoryList.GroupBy(repo => repo.Owner.Login).ToList();
@@ -60,7 +66,11 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
       .ToList())
       .ConfigureAwait(false);
 
+    // Set up the repository statistics data
+    var description = $"Repository data has been pulled from {startDate.ToString(Constants.DateRangeFormat)} to {endDate.ToString(Constants.DateRangeFormat)}";
     var totalUserCommits = repositoryStatistics.Sum(userRepoStats => userRepoStats.commits);
+
+    return (description, totalUserCommits);
   }
 
   public List<Repository?> FilterToUserSpecifiedRepositories(IGrouping<string, Repository?> group, string organisation, List<string> userSpecifiedOrganisationRepos)
@@ -116,6 +126,7 @@ public class GitHubRestService(IConfiguration configuration) : IGitHubRestServic
   public static class Constants
   {
     public const string ApplicationName = "GitHubStats";
+    public const string DateRangeFormat = "dd MMM (yyyy)";
   }
 }
 
@@ -130,6 +141,6 @@ public interface IGitHubRestService
   /// </summary>
   /// <returns>An instance of the GitHub OctoKit Api Client</returns>
   public GitHubClient CreateGitHubApiClient();
-  public Task GetGitHubUserStatistics(); // TODO in progress still - method signature to change
+  public Task<(string description, int totalCommits)> GetGitHubUserStatistics();
   public Task GetGitHubDiffForRange(); // Testing this to see if it is viable for pulling repo diffs
 }
