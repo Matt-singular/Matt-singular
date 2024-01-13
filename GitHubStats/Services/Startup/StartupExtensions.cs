@@ -14,7 +14,6 @@ public static class StartupExtensions
   {
     // Configure the DI container for Services project
     serviceCollection.TryAddScoped<IGitHubRestService, GitHubRestService>();
-    serviceCollection.TryAddScoped<IGitHubGraphQlService, GitHubGraphQlService>();
 
     return serviceCollection;
   }
