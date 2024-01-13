@@ -1,6 +1,6 @@
-﻿namespace ConsoleApplication.Tests.Helpers;
+﻿namespace Services.Tests.Helpers;
 
-using ConsoleApplication.Helpers;
+using Services.Helpers;
 
 public class FileHelperTests
 {

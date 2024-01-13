@@ -1,7 +1,7 @@
-﻿namespace ConsoleApplication.Tests.Helpers;
+﻿namespace Services.Tests.Helpers;
 
-using ConsoleApplication.Helpers;
 using Microsoft.Extensions.Configuration;
+using Services.Helpers;
 
 public class ConfigHelperTests
 {
