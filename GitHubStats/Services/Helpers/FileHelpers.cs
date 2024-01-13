@@ -1,4 +1,4 @@
-﻿namespace ConsoleApplication.Helpers;
+﻿namespace Services.Helpers;
 
 public static class FileHelpers
 {
@@ -26,7 +26,7 @@ public static class FileHelpers
 
     return applicationPath;
   }
-  
+
 
   /// <summary>
   /// Localised FileHelper constants

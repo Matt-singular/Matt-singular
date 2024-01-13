@@ -1,4 +1,4 @@
-﻿namespace ConsoleApplication.Helpers;
+﻿namespace Services.Helpers;
 
 using Microsoft.Extensions.Configuration;
 
@@ -30,5 +30,6 @@ public static class ConfigHelpers
   public static class Constants
   {
     public const string AccessTokenKey = "AccessToken";
+    public const string UserOrganisationRepositories = "UserOrganisationRepositories";
   }
 }
