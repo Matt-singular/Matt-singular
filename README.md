@@ -1,1 +1,1 @@
-![GitHub Streak](https://streak-stats.demolab.com?user=Matt-singular&theme=highcontrast&hide_border=true&border_radius=50&date_format=M%20j%5B%2C%20Y%5D&exclude_days=Sun%2CSat&card_width=500&card_height=170)
+[![GitHub Streak](https://streak-stats.demolab.com?user=Matt-singular&theme=highcontrast&hide_border=true&border_radius=50&date_format=M%20j%5B%2C%20Y%5D&exclude_days=Sun%2CSat&card_width=500&card_height=170)](https://github.com/Matt-singular/Matt-singular)
