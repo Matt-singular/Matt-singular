@@ -1,1 +1,1 @@
-![Streak](https://github-readme-streak-stats.herokuapp.com/?user=matt-singular)
+[![GitHub Streak](https://streak-stats.demolab.com?user=Matt-singular&theme=highcontrast&hide_border=true&border_radius=50&date_format=M%20j%5B%2C%20Y%5D&exclude_days=Sun%2CSat&card_width=500&card_height=170)](https://git.io/streak-stats)
